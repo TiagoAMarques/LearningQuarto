@@ -13,6 +13,18 @@ Quarto enables you to weave together content and executable code into a finished
 When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
 
 ```{r}
+#| echo: false
+library(tidyverse)
+library(knitr)
+library(quarto)
+#library(kableExtra)
+library(networkD3)
+library(stringr)
+# for the sankey plots you need this
+#library(htmlwidgets)
+```
+
+```{r}
 1 + 1
 ```
 
@@ -35,4 +47,212 @@ Look out for github actions which allows a document to be re-built every x minut
 
 ```{r}
 5+6
+```
+
+# Here I play with Saana's data
+
+Stuff for this project, including data and code, is at this [github](https://github.com/TiagoAMarques/LearningQuarto)repos.
+
+```{r}
+#| echo: false
+# Custom functions
+my_sankey <- function(df_all, my_var=c("Stressor","Receptor"), my_sep=c(",",","), N_min=0) {
+
+    df_all$var1 <- df_all[,my_var[1]]
+    df_all$var2 <- df_all[,my_var[2]]
+    if(length(my_var)==3) {df_all$var3 <- df_all[,my_var[3]]}
+
+    # counts by first two categories
+    links <- df_all %>% 
+      drop_na(var1) %>% 
+      drop_na(var2) %>% 
+      separate_rows(var1, sep=my_sep[1])  %>%
+      mutate_at(vars(var1), str_trim) %>%
+      separate_rows(var2, sep=my_sep[2])  %>%
+      mutate_at(vars(var2), str_trim) %>%
+      select(var1, var2) %>%
+      count(var1, var2) %>% 
+      filter(n >= N_min) %>%
+      rename(source = var1,
+             target = var2)
+
+    if(length(my_var)==3) {
+
+      links2 <- df_all %>% 
+        drop_na(var2) %>% 
+        drop_na(var3) %>% 
+        separate_rows(var1, sep=my_sep[1])  %>%
+        mutate_at(vars(var1), str_trim) %>%
+        separate_rows(var2, sep=my_sep[2])  %>%
+        mutate_at(vars(var2), str_trim) %>%
+        separate_rows(var3, sep=my_sep[3])  %>%
+        mutate_at(vars(var3), str_trim) %>%
+        select(var2, var3) %>%
+        count(var2, var3) %>% 
+        #filter(n >= N_min) %>%
+        rename(source = var2,
+               target = var3)
+
+      links <- bind_rows(links, links2)
+
+    }
+
+    nodes <- data.frame(
+      name=c(as.character(links$source), as.character(links$target)) %>% 
+        unique())
+
+    links$IDsource <- match(links$source, nodes$name)-1 
+    links$IDtarget <- match(links$target, nodes$name)-1
+
+    p_list <- list(
+      Links = links,
+      Nodes = nodes,
+      Source = "IDsource",
+      Target = "IDtarget",
+      Value = "n",
+      NodeID = "name",
+      #units = "TWh",
+      fontSize = 12,
+      nodeWidth = 30,
+      iterations = 0,
+      sinksRight = FALSE)        # ensure node order is as in data
+
+    return(p_list)
+  }
+#
+```
+
+```{r}
+#assumes file in same forder as .qmd file
+load("1_tethys_docs_2023-08-13.Rd")
+```
+
+Now look at what got read in
+
+```{r}
+dim(df_all)
+names(df_all)
+```
+
+```{r}
+
+df_all %>%
+    separate_rows(Technology, sep=",")  %>%
+    mutate_at(vars(Technology), str_trim)
+```
+
+Just taking a peak at the number of papers per year
+
+```{r}
+plot(table(df_all$Year))
+
+```
+
+```{r}
+plot(sort(table(df_all$Researcher),decreasing=TRUE)[1:20])
+```
+
+```{r}
+
+# Pre-processing
+  
+  # Avoid NAs in filtering
+  
+  df_all$Technology[is.na(df_all$Technology)] <- ""
+  df_all$Stressor[is.na(df_all$Stressor)] <- ""
+  df_all$Receptor[is.na(df_all$Receptor)] <- ""
+  
+  # Identify based on institution
+  
+  df_all$USTAN <- str_detect(str_to_lower(df_all$Affiliation), "university of st andrews") | 
+    str_detect(str_to_lower(df_all$Affiliation), "sea mammal research unit") | 
+    str_detect(str_to_lower(df_all$Affiliation), "smru") | 
+    str_detect(str_to_lower(df_all$Affiliation), "creem")
+  
+  df_all$USTAN[is.na(df_all$Affiliation)] <- FALSE
+  
+  # View(df_all[df_all$USTAN,])
+  
+  names(df_all)[names(df_all)=="Sponsoring Organization"] <- "Sponsor"
+  
+  df_all$USTAN2 <- "Other"
+  df_all$USTAN2[df_all$USTAN] <- "St Andrews"
+  
+  df_all$Marine <- str_detect(str_to_lower(df_all$Technology), "offshore") |
+                   str_detect(str_to_lower(df_all$Technology), "wave") |
+                   str_detect(str_to_lower(df_all$Technology), "tidal") |
+                   str_detect(str_to_lower(df_all$Technology), "marine")
+  
+
+# Table 1, top-listed sponsors
+  
+  top_sponsors <-   df_all %>%
+                       separate_rows(Sponsor, sep=",")  %>%
+                       mutate_at(vars(Sponsor), str_trim) %>%
+                       mutate(MarineTech = str_detect(str_to_lower(Technology), "offshore") | 
+                                str_detect(str_to_lower(Technology), "wave") | 
+                                str_detect(str_to_lower(Technology), "tidal") | 
+                                str_detect(str_to_lower(Technology), "marine")) %>%
+                       mutate(MarMammals = str_detect(str_to_lower(Receptor), "marine mammals")) %>%
+                       mutate(Birds = str_detect(str_to_lower(Receptor), "birds")) %>%
+                       mutate(FishFisheries = str_detect(str_to_lower(Receptor), "fish")) %>%
+                       mutate(Inverteb = str_detect(str_to_lower(Receptor), "invertebrate")) %>%
+                       mutate(SocialHumanJustice = str_detect(str_to_lower(Receptor), "social") | str_detect(str_to_lower(Receptor), "human") | str_detect(str_to_lower(Receptor), "justice")) %>%
+                       group_by(Sponsor) %>% 
+                       drop_na(Sponsor) %>%
+                       summarize(
+                         N=length(Year), 
+                         USTAN=sum(USTAN),
+                         MarineTech=mean(MarineTech, na.rm=T)*100,
+                         MarMammals = mean(MarMammals, na.rm=T)*100, 
+                         Birds = mean(Birds, na.rm=T)*100,
+                         Fish = mean(FishFisheries, na.rm=T)*100,
+                         Inverteb = mean(Inverteb, na.rm=T)*100) %>%
+                         arrange(desc(N),desc(USTAN)) %>%
+                         filter(N>=20)
+  
+kable(top_sponsors,digits = 1)
+```
+
+Now looking at a plot
+
+```{r}
+  # Fig 2, Time series plot with technology type
+  
+  df_all %>% filter(Marine) %>% 
+    separate_rows(Technology, sep=",")  %>%
+    mutate_at(vars(Technology), str_trim) %>%
+    filter(Technology!="Wind Energy") %>%
+    filter(Technology!="Marine Energy") %>% 
+    group_by(Year, Technology) %>% 
+    summarize(N=length(Year))  %>% 
+    ggplot(aes(x=Year, y=N, group = Technology, fill = Technology)) + 
+    geom_bar(stat = "identity") +
+    xlim(c(1980,2023))
+```
+
+```{r}
+  # Fig 3, Database overview
+  p2 <- df_all %>% 
+    filter(Marine) %>%
+    drop_na(Stressor) %>%
+    filter(Stressor!="") %>%
+    my_sankey(c("Technology","Stressor", "Receptor"), c(",",",",","), N_min = 0)
+
+```
+
+```{r}
+#| label: dah
+  sankeyNetwork(Links = p2$Links,
+      Nodes = p2$Nodes,
+      Source = p2$Source,
+      Target = p2$Target,
+      Value = p2$Value,
+      NodeID = p2$NodeID,
+      #units = "TWh",
+      fontSize = p2$fontSize,
+      nodeWidth = p2$nodeWidth,
+      iterations = p2$iterations,
+      sinksRight = p2$sinksRight)
+
 ```
