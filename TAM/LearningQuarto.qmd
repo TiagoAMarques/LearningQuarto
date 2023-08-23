@@ -1,7 +1,20 @@
 ---
 title: "Learning Quarto"
-format: html
-editor: visual
+author: "Tiago A. Marques"
+toc: true
+number-sections: true
+highlight-style: pygments
+format:
+  html: 
+    code-fold: true
+    html-math-method: katex
+  pdf:
+    geometry: 
+      - top=30mm
+      - left=30mm
+  docx: default
+csl: C:\\Users\\tam2\\Dropbox\\ctr\\mee.csl
+bibliography: C:\\Users\\tam2\\Dropbox\\ctr\\MainBibFile.bib
 ---
 
 ## Quarto
@@ -241,8 +254,11 @@ Now looking at a plot
 
 ```
 
+The Sankey plot is not working. No one knows why. Seems a bug, but only happens in my machine. Code works in both Enrico and Saana's PC's, and their code does not run on my PC... Must be my PC, but we have the same versions of `R`, `knitr` and `htmlwidgets`, so I am at a loss.
+
 ```{r}
 #| label: dah
+#| eval: FALSE
   sankeyNetwork(Links = p2$Links,
       Nodes = p2$Nodes,
       Source = p2$Source,
@@ -256,3 +272,27 @@ Now looking at a plot
       sinksRight = p2$sinksRight)
 
 ```
+
+Looking at references per country.
+
+```{r}
+#| label: fig-scatterplot
+#| fig-cap: "Number of papers per country."
+#| fig-alt: "Number of papers per country bla bla bla PT is there"
+#| fig-width: 6
+#| fig-height: 3.5
+par(mar=c(8,4,0.2,0.2))
+barplot(table(df_all$Country),las=2)
+```
+
+We can see that in figure @fig-scatterplot.
+
+Citing a book @BUC01
+
+Adding math to text
+
+$$
+\hat N = \frac{n}{\hat P}
+$$
+
+# References
