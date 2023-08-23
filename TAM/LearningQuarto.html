@@ -6,6 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Tiago A. Marques">
 
 <title>Learning Quarto</title>
 <style>
@@ -54,7 +55,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="LearningQuarto_files/libs/clipboard/clipboard.min.js"></script>
@@ -71,10 +91,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="fullcontent">
+<body>
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#quarto" id="toc-quarto" class="nav-link active" data-scroll-target="#quarto"><span class="header-section-number">0.1</span> Quarto</a></li>
+  <li><a href="#running-code" id="toc-running-code" class="nav-link" data-scroll-target="#running-code"><span class="header-section-number">0.2</span> Running Code</a></li>
+  <li><a href="#tams-comments" id="toc-tams-comments" class="nav-link" data-scroll-target="#tams-comments"><span class="header-section-number">0.3</span> TAM’s comments</a></li>
+  <li><a href="#here-i-play-with-saanas-data" id="toc-here-i-play-with-saanas-data" class="nav-link" data-scroll-target="#here-i-play-with-saanas-data"><span class="header-section-number">1</span> Here I play with Saana’s data</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">2</span> References</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="LearningQuarto.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="LearningQuarto.docx"><i class="bi bi-file-word"></i>MS Word</a></li></ul></div></nav>
+</div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
@@ -86,6 +118,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Tiago A. Marques </p>
+          </div>
+  </div>
     
   
     
@@ -94,15 +132,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<section id="quarto" class="level2">
-<h2 class="anchored" data-anchor-id="quarto">Quarto</h2>
+<section id="quarto" class="level2" data-number="0.1">
+<h2 data-number="0.1" class="anchored" data-anchor-id="quarto"><span class="header-section-number">0.1</span> Quarto</h2>
 <p>Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <a href="https://quarto.org" class="uri">https://quarto.org</a>.</p>
 </section>
-<section id="running-code" class="level2">
-<h2 class="anchored" data-anchor-id="running-code">Running Code</h2>
+<section id="running-code" class="level2" data-number="0.2">
+<h2 data-number="0.2" class="anchored" data-anchor-id="running-code"><span class="header-section-number">0.2</span> Running Code</h2>
 <p>When you click the <strong>Render</strong> button a document will be generated that includes both content and the output of embedded code. You can embed code like this:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.2     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.0
+✔ ggplot2   3.4.3     ✔ tibble    3.2.1
+✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2</code></pre>
 </div>
@@ -115,20 +170,431 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>The <code>echo: false</code> option disables the printing of code (only output is displayed).</p>
 </section>
-<section id="tams-comments" class="level2">
-<h2 class="anchored" data-anchor-id="tams-comments">TAM’s comments</h2>
+<section id="tams-comments" class="level2" data-number="0.3">
+<h2 data-number="0.3" class="anchored" data-anchor-id="tams-comments"><span class="header-section-number">0.3</span> TAM’s comments</h2>
 <p>Now if you need help with Quarto, you can find a lot <a href="https://quarto.org/docs/guide/">here</a>.</p>
 <p>This <a href="https://github.com/mcanouil/awesome-quarto">github</a> repository also includes extensive material of what others have done, videos, tutorials, templates, etc.</p>
 <p>Look out for github actions which allows a document to be re-built every x minutes, updating e.g.&nbsp;a website.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span><span class="sc">+</span><span class="dv">6</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span><span class="sc">+</span><span class="dv">6</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 11</code></pre>
 </div>
 </div>
 </section>
+<section id="here-i-play-with-saanas-data" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Here I play with Saana’s data</h1>
+<p>Stuff for this project, including data and code, is at this <a href="https://github.com/TiagoAMarques/LearningQuarto">github</a>repos.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#assumes file in same forder as .qmd file</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"1_tethys_docs_2023-08-13.Rd"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Now look at what got read in</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(df_all)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 8790   52</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(df_all)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Title"                     "Link"                     
+ [3] "Authors"                   "Month_year"               
+ [5] "Content_type"              "Author"                   
+ [7] "Publication Date"          "Journal"                  
+ [9] "Volume"                    "Pages"                    
+[11] "Publisher"                 "Affiliation"              
+[13] "Technology"                "Receptor"                 
+[15] "Website"                   "Attachment"               
+[17] "Citation"                  "Abstract"                 
+[19] "Stressor"                  "Issue"                    
+[21] "Thesis Type"               "Academic Department"      
+[23] "Place Published"           "Sponsoring Organization"  
+[25] "Document Number"           "Event Name"               
+[27] "Event Location"            "Book Title"               
+[29] "Magazine"                  "Edition"                  
+[31] "Chapter"                   "Status"                   
+[33] "Project Manager"           "Tech Developer"           
+[35] "Start Date"                "Info Last Updated"        
+[37] "Contact"                   "Technology Subtype"       
+[39] "Support Structure"         "Project Scale"            
+[41] "Grid Connection"           "Installed Capacity"       
+[43] "Electrical Infrastructure" "Country"                  
+[45] "Physical Site"             "Water Depth"              
+[47] "Channel Width"             "Running Time"             
+[49] "End Date"                  "Researcher"               
+[51] "State"                     "Year"                     </code></pre>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>df_all <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">separate_rows</span>(Technology, <span class="at">sep=</span><span class="st">","</span>)  <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate_at</span>(<span class="fu">vars</span>(Technology), str_trim)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 16,128 × 52
+   Title Link  Authors Month_year Content_type Author `Publication Date` Journal
+   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;chr&gt;        &lt;chr&gt;  &lt;chr&gt;              &lt;chr&gt;  
+ 1 "WIL… /pub… "Kuru,… November … "Journal Ar… Kuru,… November 30, 2023  Expert…
+ 2 "Win… /pub… "Moust… September… "Journal Ar… Moust… September 20, 2023 Scienc…
+ 3 "Win… /pub… "Moust… September… "Journal Ar… Moust… September 20, 2023 Scienc…
+ 4 "A r… /pub… "Ma, C… September… "Journal Ar… Ma, C… September 15, 2023 Journa…
+ 5 "Int… /pub… "Gkeka… September… "Journal Ar… Gkeka… September 10, 2023 Journa…
+ 6 "Int… /pub… "Gkeka… September… "Journal Ar… Gkeka… September 10, 2023 Journa…
+ 7 "Co-… /pub… "Tursc… September… "Journal Ar… Tursc… September 1, 2023  Enviro…
+ 8 "Co-… /pub… "Tursc… September… "Journal Ar… Tursc… September 1, 2023  Enviro…
+ 9 "Tow… /pub… "Weiss… September… "Journal Ar… Weiss… September 1, 2023  Ocean …
+10 "Tow… /pub… "Weiss… September… "Journal Ar… Weiss… September 1, 2023  Ocean …
+# ℹ 16,118 more rows
+# ℹ 44 more variables: Volume &lt;chr&gt;, Pages &lt;chr&gt;, Publisher &lt;chr&gt;,
+#   Affiliation &lt;chr&gt;, Technology &lt;chr&gt;, Receptor &lt;chr&gt;, Website &lt;chr&gt;,
+#   Attachment &lt;chr&gt;, Citation &lt;chr&gt;, Abstract &lt;chr&gt;, Stressor &lt;chr&gt;,
+#   Issue &lt;chr&gt;, `Thesis Type` &lt;chr&gt;, `Academic Department` &lt;chr&gt;,
+#   `Place Published` &lt;chr&gt;, `Sponsoring Organization` &lt;chr&gt;,
+#   `Document Number` &lt;chr&gt;, `Event Name` &lt;chr&gt;, `Event Location` &lt;chr&gt;, …</code></pre>
+</div>
+</div>
+<p>Just taking a peak at the number of papers per year</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">table</span>(df_all<span class="sc">$</span>Year))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="LearningQuarto_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">sort</span>(<span class="fu">table</span>(df_all<span class="sc">$</span>Researcher),<span class="at">decreasing=</span><span class="cn">TRUE</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="LearningQuarto_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pre-processing</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Avoid NAs in filtering</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  df_all<span class="sc">$</span>Technology[<span class="fu">is.na</span>(df_all<span class="sc">$</span>Technology)] <span class="ot">&lt;-</span> <span class="st">""</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  df_all<span class="sc">$</span>Stressor[<span class="fu">is.na</span>(df_all<span class="sc">$</span>Stressor)] <span class="ot">&lt;-</span> <span class="st">""</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  df_all<span class="sc">$</span>Receptor[<span class="fu">is.na</span>(df_all<span class="sc">$</span>Receptor)] <span class="ot">&lt;-</span> <span class="st">""</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Identify based on institution</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  df_all<span class="sc">$</span>USTAN <span class="ot">&lt;-</span> <span class="fu">str_detect</span>(<span class="fu">str_to_lower</span>(df_all<span class="sc">$</span>Affiliation), <span class="st">"university of st andrews"</span>) <span class="sc">|</span> </span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_detect</span>(<span class="fu">str_to_lower</span>(df_all<span class="sc">$</span>Affiliation), <span class="st">"sea mammal research unit"</span>) <span class="sc">|</span> </span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_detect</span>(<span class="fu">str_to_lower</span>(df_all<span class="sc">$</span>Affiliation), <span class="st">"smru"</span>) <span class="sc">|</span> </span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_detect</span>(<span class="fu">str_to_lower</span>(df_all<span class="sc">$</span>Affiliation), <span class="st">"creem"</span>)</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  df_all<span class="sc">$</span>USTAN[<span class="fu">is.na</span>(df_all<span class="sc">$</span>Affiliation)] <span class="ot">&lt;-</span> <span class="cn">FALSE</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># View(df_all[df_all$USTAN,])</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(df_all)[<span class="fu">names</span>(df_all)<span class="sc">==</span><span class="st">"Sponsoring Organization"</span>] <span class="ot">&lt;-</span> <span class="st">"Sponsor"</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>  df_all<span class="sc">$</span>USTAN2 <span class="ot">&lt;-</span> <span class="st">"Other"</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>  df_all<span class="sc">$</span>USTAN2[df_all<span class="sc">$</span>USTAN] <span class="ot">&lt;-</span> <span class="st">"St Andrews"</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>  df_all<span class="sc">$</span>Marine <span class="ot">&lt;-</span> <span class="fu">str_detect</span>(<span class="fu">str_to_lower</span>(df_all<span class="sc">$</span>Technology), <span class="st">"offshore"</span>) <span class="sc">|</span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">str_detect</span>(<span class="fu">str_to_lower</span>(df_all<span class="sc">$</span>Technology), <span class="st">"wave"</span>) <span class="sc">|</span></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">str_detect</span>(<span class="fu">str_to_lower</span>(df_all<span class="sc">$</span>Technology), <span class="st">"tidal"</span>) <span class="sc">|</span></span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">str_detect</span>(<span class="fu">str_to_lower</span>(df_all<span class="sc">$</span>Technology), <span class="st">"marine"</span>)</span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Table 1, top-listed sponsors</span></span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>  top_sponsors <span class="ot">&lt;-</span>   df_all <span class="sc">%&gt;%</span></span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">separate_rows</span>(Sponsor, <span class="at">sep=</span><span class="st">","</span>)  <span class="sc">%&gt;%</span></span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">mutate_at</span>(<span class="fu">vars</span>(Sponsor), str_trim) <span class="sc">%&gt;%</span></span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">mutate</span>(<span class="at">MarineTech =</span> <span class="fu">str_detect</span>(<span class="fu">str_to_lower</span>(Technology), <span class="st">"offshore"</span>) <span class="sc">|</span> </span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>                                <span class="fu">str_detect</span>(<span class="fu">str_to_lower</span>(Technology), <span class="st">"wave"</span>) <span class="sc">|</span> </span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>                                <span class="fu">str_detect</span>(<span class="fu">str_to_lower</span>(Technology), <span class="st">"tidal"</span>) <span class="sc">|</span> </span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>                                <span class="fu">str_detect</span>(<span class="fu">str_to_lower</span>(Technology), <span class="st">"marine"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">mutate</span>(<span class="at">MarMammals =</span> <span class="fu">str_detect</span>(<span class="fu">str_to_lower</span>(Receptor), <span class="st">"marine mammals"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">mutate</span>(<span class="at">Birds =</span> <span class="fu">str_detect</span>(<span class="fu">str_to_lower</span>(Receptor), <span class="st">"birds"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">mutate</span>(<span class="at">FishFisheries =</span> <span class="fu">str_detect</span>(<span class="fu">str_to_lower</span>(Receptor), <span class="st">"fish"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">mutate</span>(<span class="at">Inverteb =</span> <span class="fu">str_detect</span>(<span class="fu">str_to_lower</span>(Receptor), <span class="st">"invertebrate"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">mutate</span>(<span class="at">SocialHumanJustice =</span> <span class="fu">str_detect</span>(<span class="fu">str_to_lower</span>(Receptor), <span class="st">"social"</span>) <span class="sc">|</span> <span class="fu">str_detect</span>(<span class="fu">str_to_lower</span>(Receptor), <span class="st">"human"</span>) <span class="sc">|</span> <span class="fu">str_detect</span>(<span class="fu">str_to_lower</span>(Receptor), <span class="st">"justice"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">group_by</span>(Sponsor) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">drop_na</span>(Sponsor) <span class="sc">%&gt;%</span></span>
+<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">summarize</span>(</span>
+<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a>                         <span class="at">N=</span><span class="fu">length</span>(Year), </span>
+<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a>                         <span class="at">USTAN=</span><span class="fu">sum</span>(USTAN),</span>
+<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a>                         <span class="at">MarineTech=</span><span class="fu">mean</span>(MarineTech, <span class="at">na.rm=</span>T)<span class="sc">*</span><span class="dv">100</span>,</span>
+<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a>                         <span class="at">MarMammals =</span> <span class="fu">mean</span>(MarMammals, <span class="at">na.rm=</span>T)<span class="sc">*</span><span class="dv">100</span>, </span>
+<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a>                         <span class="at">Birds =</span> <span class="fu">mean</span>(Birds, <span class="at">na.rm=</span>T)<span class="sc">*</span><span class="dv">100</span>,</span>
+<span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a>                         <span class="at">Fish =</span> <span class="fu">mean</span>(FishFisheries, <span class="at">na.rm=</span>T)<span class="sc">*</span><span class="dv">100</span>,</span>
+<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a>                         <span class="at">Inverteb =</span> <span class="fu">mean</span>(Inverteb, <span class="at">na.rm=</span>T)<span class="sc">*</span><span class="dv">100</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">arrange</span>(<span class="fu">desc</span>(N),<span class="fu">desc</span>(USTAN)) <span class="sc">%&gt;%</span></span>
+<span id="cb16-56"><a href="#cb16-56" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">filter</span>(N<span class="sc">&gt;=</span><span class="dv">20</span>)</span>
+<span id="cb16-57"><a href="#cb16-57" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb16-58"><a href="#cb16-58" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(top_sponsors,<span class="at">digits =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 56%">
+<col style="width: 3%">
+<col style="width: 5%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 5%">
+<col style="width: 4%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Sponsor</th>
+<th style="text-align: right;">N</th>
+<th style="text-align: right;">USTAN</th>
+<th style="text-align: right;">MarineTech</th>
+<th style="text-align: right;">MarMammals</th>
+<th style="text-align: right;">Birds</th>
+<th style="text-align: right;">Fish</th>
+<th style="text-align: right;">Inverteb</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">US Department of Energy (DOE)</td>
+<td style="text-align: right;">153</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">64.7</td>
+<td style="text-align: right;">14.4</td>
+<td style="text-align: right;">28.1</td>
+<td style="text-align: right;">20.3</td>
+<td style="text-align: right;">7.2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bureau of Ocean Energy Management (BOEM)</td>
+<td style="text-align: right;">74</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">83.8</td>
+<td style="text-align: right;">31.1</td>
+<td style="text-align: right;">29.7</td>
+<td style="text-align: right;">37.8</td>
+<td style="text-align: right;">21.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">US Department of the Interior (DOI)</td>
+<td style="text-align: right;">54</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">68.5</td>
+<td style="text-align: right;">18.5</td>
+<td style="text-align: right;">31.5</td>
+<td style="text-align: right;">29.6</td>
+<td style="text-align: right;">11.1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Scottish Government</td>
+<td style="text-align: right;">53</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">88.7</td>
+<td style="text-align: right;">43.4</td>
+<td style="text-align: right;">26.4</td>
+<td style="text-align: right;">15.1</td>
+<td style="text-align: right;">1.9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Marine Scotland Science</td>
+<td style="text-align: right;">47</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">87.2</td>
+<td style="text-align: right;">29.8</td>
+<td style="text-align: right;">40.4</td>
+<td style="text-align: right;">12.8</td>
+<td style="text-align: right;">4.3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ocean Energy Systems (OES)</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">100.0</td>
+<td style="text-align: right;">15.6</td>
+<td style="text-align: right;">6.2</td>
+<td style="text-align: right;">15.6</td>
+<td style="text-align: right;">6.2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">National Renewable Energy Laboratory (NREL)</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3.3</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">86.7</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Collaborative Offshore Wind Research into the Environment (COWRIE)</td>
+<td style="text-align: right;">28</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">89.3</td>
+<td style="text-align: right;">21.4</td>
+<td style="text-align: right;">60.7</td>
+<td style="text-align: right;">21.4</td>
+<td style="text-align: right;">3.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">The Crown Estate</td>
+<td style="text-align: right;">28</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">92.9</td>
+<td style="text-align: right;">10.7</td>
+<td style="text-align: right;">28.6</td>
+<td style="text-align: right;">7.1</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Welsh Government</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">100.0</td>
+<td style="text-align: right;">37.0</td>
+<td style="text-align: right;">22.2</td>
+<td style="text-align: right;">29.6</td>
+<td style="text-align: right;">3.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">California Energy Commission</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">18.2</td>
+<td style="text-align: right;">4.5</td>
+<td style="text-align: right;">68.2</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Scottish Natural Heritage</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">75.0</td>
+<td style="text-align: right;">35.0</td>
+<td style="text-align: right;">35.0</td>
+<td style="text-align: right;">10.0</td>
+<td style="text-align: right;">10.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">European Commission</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">85.0</td>
+<td style="text-align: right;">10.0</td>
+<td style="text-align: right;">10.0</td>
+<td style="text-align: right;">5.0</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Now looking at a plot</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Fig 2, Time series plot with technology type</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  df_all <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Marine) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">separate_rows</span>(Technology, <span class="at">sep=</span><span class="st">","</span>)  <span class="sc">%&gt;%</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate_at</span>(<span class="fu">vars</span>(Technology), str_trim) <span class="sc">%&gt;%</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Technology<span class="sc">!=</span><span class="st">"Wind Energy"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Technology<span class="sc">!=</span><span class="st">"Marine Energy"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(Year, Technology) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">N=</span><span class="fu">length</span>(Year))  <span class="sc">%&gt;%</span> </span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Year, <span class="at">y=</span>N, <span class="at">group =</span> Technology, <span class="at">fill =</span> Technology)) <span class="sc">+</span> </span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="dv">1980</span>,<span class="dv">2023</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'Year'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 8 rows containing missing values (`position_stack()`).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 10 rows containing missing values (`geom_bar()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="LearningQuarto_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Fig 3, Database overview</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  p2 <span class="ot">&lt;-</span> df_all <span class="sc">%&gt;%</span> </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Marine) <span class="sc">%&gt;%</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">drop_na</span>(Stressor) <span class="sc">%&gt;%</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Stressor<span class="sc">!=</span><span class="st">""</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">my_sankey</span>(<span class="fu">c</span>(<span class="st">"Technology"</span>,<span class="st">"Stressor"</span>, <span class="st">"Receptor"</span>), <span class="fu">c</span>(<span class="st">","</span>,<span class="st">","</span>,<span class="st">","</span>), <span class="at">N_min =</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>The Sankey plot is not working. No one knows why. Seems a bug, but only happens in my machine. Code works in both Enrico and Saana’s PC’s, and their code does not run on my PC… Must be my PC, but we have the same versions of <code>R</code>, <code>knitr</code> and <code>htmlwidgets</code>, so I am at a loss.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sankeyNetwork</span>(<span class="at">Links =</span> p2<span class="sc">$</span>Links,</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">Nodes =</span> p2<span class="sc">$</span>Nodes,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">Source =</span> p2<span class="sc">$</span>Source,</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">Target =</span> p2<span class="sc">$</span>Target,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">Value =</span> p2<span class="sc">$</span>Value,</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">NodeID =</span> p2<span class="sc">$</span>NodeID,</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>      <span class="co">#units = "TWh",</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">fontSize =</span> p2<span class="sc">$</span>fontSize,</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">nodeWidth =</span> p2<span class="sc">$</span>nodeWidth,</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">iterations =</span> p2<span class="sc">$</span>iterations,</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">sinksRight =</span> p2<span class="sc">$</span>sinksRight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Looking at references per country.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">8</span>,<span class="dv">4</span>,<span class="fl">0.2</span>,<span class="fl">0.2</span>))</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">table</span>(df_all<span class="sc">$</span>Country),<span class="at">las=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-scatterplot" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="LearningQuarto_files/figure-html/fig-scatterplot-1.png" class="img-fluid figure-img" alt="Number of papers per country bla bla bla PT is there" width="576"></p>
+<figcaption class="figure-caption">Figure&nbsp;1: Number of papers per country.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>We can see that in figure <a href="#fig-scatterplot">Figure&nbsp;1</a>.</p>
+<p>Citing a book <span class="citation" data-cites="BUC01">Buckland <em>et al.</em> (<a href="#ref-BUC01" role="doc-biblioref">2001</a>)</span></p>
+</section>
+<section id="references" class="level1 unnumbered" data-number="2">
 
-</main>
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">2 References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-BUC01" class="csl-entry" role="listitem">
+Buckland, S.T., Anderson, D.R., Burnham, K.P., Laake, J.L., Borchers, D.L. &amp; Thomas, L. (2001). <em>Introduction to distance sampling: Estimating abundance of biological populations</em>. Oxford University Press, Oxford.
+</div>
+</div></section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
