@@ -215,6 +215,12 @@ First, plotting number of publications by country.
 ```{r}
 #| echo: false
 #| warning: false
+#| label: fig-scatterplot
+#| fig-cap: "Number of papers per country."
+#| fig-width: 6
+#| fig-height: 6
+
+# Note: trying figure labels and resizing
 
 # Summarise data by country
 N_country <- df_all %>% 
@@ -247,4 +253,59 @@ World %>%
             by = c("name" = "Country")) %>% 
   tm_shape() +
   tm_polygons("N") 
+```
+
+## Statistical analysis: Potential drivers of Scottish funding
+
+Comparing a base model with variables MarineTech, MarMammals, Birds, FishFisheries and Year, with a model that also includes the USTAN binary variable.
+
+```{r}
+#| echo: false
+#| warning: false
+
+# Generate data
+fitdata <- df_all %>%
+          separate_rows(Sponsor, sep=",")  %>%
+          mutate_at(vars(Sponsor), str_trim) %>%
+          drop_na(Sponsor) %>%
+          filter(Sponsor!="") %>%
+          mutate(MarineTech = str_detect(str_to_lower(Technology), "offshore") | 
+                   str_detect(str_to_lower(Technology), "wave") | 
+                   str_detect(str_to_lower(Technology), "tidal") | 
+                   str_detect(str_to_lower(Technology), "marine")) %>%
+          mutate(MarMammals = str_detect(str_to_lower(Receptor), "marine mammals")) %>%
+          mutate(Birds = str_detect(str_to_lower(Receptor), "birds")) %>%
+          mutate(FishFisheries = str_detect(str_to_lower(Receptor), "fish")) %>%
+          mutate(Inverteb = str_detect(str_to_lower(Receptor), "invertebrate")) %>%
+          mutate(SocialHumanJustice = str_detect(str_to_lower(Receptor), "social") |
+                   str_detect(str_to_lower(Receptor), "human") | 
+                   str_detect(str_to_lower(Receptor), "justice")) %>%
+          mutate(Scotland = str_detect(str_to_lower(Sponsor), "scot") & 
+                   !str_detect(str_to_lower(Sponsor), "scotia"))
+
+# Fit models         
+fit0 <- glm(Scotland ~ MarineTech + MarMammals + Birds + FishFisheries + Year,
+            data = fitdata, family = binomial(link = "logit"))
+# summary(fit0) 
+  
+fit1 <- glm(Scotland ~ MarineTech + MarMammals + Birds + FishFisheries + Year + USTAN,
+            data = fitdata, family = binomial(link = "logit"))
+# summary(fit1) 
+```
+
+The difference in AIC between the two models is `r AIC(fit1) - AIC(fit0)`. The model ith USTAN is preferred. The estimated coefficients for the two models are:
+  
+```{r}
+#| echo: false
+
+# Summarize model output
+r1 <- data.frame(Model = 1, Covariate = rownames(summary(fit0)$coefficients), summary(fit0)$coefficients)
+r2 <- data.frame(Model = 2, Covariate = rownames(summary(fit1)$coefficients), summary(fit1)$coefficients)
+results <- data.frame(rbind(r1, r2))
+rownames(results) <- NULL
+colnames(results) <- c("Model", "Covariate","Estimate", "SE", "z-value","p-value")
+  
+# Print table with results
+kable(results, digit = 3) 
+  
 ```
