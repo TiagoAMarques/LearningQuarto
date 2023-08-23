@@ -4,6 +4,10 @@ format: html
 author: "Enrico Pirotta"
 date: "08/23/2023"
 editor: visual
+link-citations: true
+csl: mee.csl
+bibliography: references.bib
+
 ---
 
 ```{r}
@@ -354,3 +358,6 @@ kable(results, digit = 3)
   
 ```
 
+Trying adding a citation [@schwacke2023expert].
+
+## References
