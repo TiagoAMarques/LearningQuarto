@@ -18,6 +18,7 @@ library(viridis)
 library(writexl)
 library(htmlwidgets)
 library(knitr)
+library(tmap)
 
 # Load Saana's data
 load("D:/Documents/Quarto_training_23Aug2023/LearningQuarto/Data/1_tethys_docs_2023-08-13.Rd")
@@ -213,13 +214,22 @@ First, plotting number of publications by country.
 
 ```{r}
 #| echo: false
-df_all %>% 
+N_country <- df_all %>% 
   drop_na(Country) %>% 
   group_by(Country) %>% 
-  summarise(N = n()) %>% 
+  summarise(N = n())
+
+N_country %>% 
   ggplot(aes(x = Country, y= N)) +
   geom_bar(stat = "identity") + 
   ylab("Number of publications") +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 90)) 
+
+data("World")
+World %>% 
+  left_join(N_country, 
+            by = c("name" = "Country")) %>% 
+  tm_shape() +
+    tm_polygons("N")
 ```
