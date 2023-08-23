@@ -75,15 +75,15 @@ top_sponsors <-   df_all %>%
                        summarize(
                          N = length(Year), 
                          USTAN = sum(USTAN),
-                         MarineTech = round(mean(MarineTech, na.rm=T)*100),
-                         MarMammals = round(mean(MarMammals, na.rm=T)*100), 
-                         Birds = round(mean(Birds, na.rm=T)*100),
-                         Fish = round(mean(FishFisheries, na.rm=T)*100),
-                         Inverteb = round(mean(Inverteb, na.rm=T)*100)) %>%
+                         MarineTech = mean(MarineTech, na.rm=T)*100,
+                         MarMammals = mean(MarMammals, na.rm=T)*100, 
+                         Birds = mean(Birds, na.rm=T)*100,
+                         Fish = mean(FishFisheries, na.rm=T)*100,
+                         Inverteb = mean(Inverteb, na.rm=T)*100) %>%
                          arrange(desc(N),desc(USTAN)) %>%
                          filter(N >= 20)
   
-kable(top_sponsors, "html")
+kable(top_sponsors, "html", digit = 0)
 
 ```
 
@@ -207,3 +207,19 @@ sankeyNetwork(
 
 ```
 
+## Plotting data by country
+
+First, plotting number of publications by country.
+
+```{r}
+#| echo: false
+df_all %>% 
+  drop_na(Country) %>% 
+  group_by(Country) %>% 
+  summarise(N = n()) %>% 
+  ggplot(aes(x = Country, y= N)) +
+  geom_bar(stat = "identity") + 
+  ylab("Number of publications") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90)) 
+```
