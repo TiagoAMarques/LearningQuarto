@@ -1,0 +1,191 @@
+---
+title: "Learning Quarto using Tethys data"
+format: html
+author: "Enrico Pirotta"
+date: "08/23/2023"
+editor: visual
+---
+
+```{r}
+#| echo: false
+#| warning: false
+
+# Load packages
+library(tidyverse)
+library(networkD3)
+library(stringr)
+library(viridis)
+library(writexl)
+library(htmlwidgets)
+
+# Load Saana's data
+load("D:/Documents/Quarto_training_23Aug2023/LearningQuarto/Data/1_tethys_docs_2023-08-13.Rd")
+
+# Pre-processing
+  
+# Avoid NAs in filtering
+df_all$Technology[is.na(df_all$Technology)] <- ""
+df_all$Stressor[is.na(df_all$Stressor)] <- ""
+df_all$Receptor[is.na(df_all$Receptor)] <- ""
+
+# Identify based on institution
+df_all$USTAN <- str_detect(str_to_lower(df_all$Affiliation), "university of st andrews") | 
+    str_detect(str_to_lower(df_all$Affiliation), "sea mammal research unit") | 
+    str_detect(str_to_lower(df_all$Affiliation), "smru") | 
+    str_detect(str_to_lower(df_all$Affiliation), "creem")
+  
+  df_all$USTAN[is.na(df_all$Affiliation)] <- FALSE
+
+names(df_all)[names(df_all)=="Sponsoring Organization"] <- "Sponsor"
+  
+df_all$USTAN2 <- "Other"
+df_all$USTAN2[df_all$USTAN] <- "St Andrews"
+  
+df_all$Marine <- str_detect(str_to_lower(df_all$Technology), "offshore") |
+                   str_detect(str_to_lower(df_all$Technology), "wave") |
+                   str_detect(str_to_lower(df_all$Technology), "tidal") |
+                   str_detect(str_to_lower(df_all$Technology), "marine")
+  
+```
+
+## Top sponsors
+
+The following pie chart report the proportion of top-listed sponsors
+
+```{r}
+#| echo: false
+
+top_sponsors <-   df_all %>%
+                       separate_rows(Sponsor, sep = ",")  %>%
+                       mutate_at(vars(Sponsor), str_trim) %>%
+                       mutate(MarineTech = str_detect(str_to_lower(Technology), "offshore") | 
+                                str_detect(str_to_lower(Technology), "wave") | 
+                                str_detect(str_to_lower(Technology), "tidal") | 
+                                str_detect(str_to_lower(Technology), "marine")) %>%
+                       mutate(MarMammals = str_detect(str_to_lower(Receptor), "marine mammals")) %>%
+                       mutate(Birds = str_detect(str_to_lower(Receptor), "birds")) %>%
+                       mutate(FishFisheries = str_detect(str_to_lower(Receptor), "fish")) %>%
+                       mutate(Inverteb = str_detect(str_to_lower(Receptor), "invertebrate")) %>%
+                       mutate(SocialHumanJustice = str_detect(str_to_lower(Receptor), "social") | str_detect(str_to_lower(Receptor), "human") | str_detect(str_to_lower(Receptor), "justice")) %>%
+                       group_by(Sponsor) %>% 
+                       drop_na(Sponsor) %>%
+                       summarize(
+                         N = length(Year), 
+                         USTAN = sum(USTAN),
+                         MarineTech = mean(MarineTech, na.rm=T)*100,
+                         MarMammals = mean(MarMammals, na.rm=T)*100, 
+                         Birds = mean(Birds, na.rm=T)*100,
+                         Fish = mean(FishFisheries, na.rm=T)*100,
+                         Inverteb = mean(Inverteb, na.rm=T)*100) %>%
+                         arrange(desc(N),desc(USTAN)) %>%
+                         filter(N>=20)
+  
+top_sponsors %>% 
+  arrange(desc(Sponsor)) %>%
+  mutate(prop = N / sum(top_sponsors$N) *100) %>%
+  mutate(ypos = cumsum(prop)- 0.5*prop ) %>% 
+  ggplot(aes(x = "", y = prop, 
+             fill = Sponsor)) +
+  geom_bar(stat = "identity", 
+           width = 1, 
+           color = "white") +
+  coord_polar("y", start = 0) +
+  theme_void() 
+```
+ 
+## Time series plot with technology type
+```{r} 
+#| echo: false
+#| warning: false
+
+df_all %>% 
+  filter(Marine) %>% 
+  separate_rows(Technology, sep = ",")  %>%
+  mutate_at(vars(Technology), str_trim) %>%
+  filter(Technology != "Wind Energy") %>%
+  filter(Technology != "Marine Energy") %>% 
+  group_by(Year, Technology) %>% 
+  summarize(N = length(Year))  %>% 
+  ggplot(aes(x =Year, y = N, 
+               group = Technology, 
+               fill = Technology)) + 
+  geom_bar(stat = "identity") +
+  xlim(c(1980, 2023)) +
+  theme_bw()
+  
+```
+
+## Sankey diagram
+
+```{r}
+#| echo: false
+#| warning: false
+#| 
+my_sep <- c(",", ",", ",")
+N_min <- 0
+links <- df_all %>% 
+    filter(Marine) %>%
+    drop_na(Stressor) %>%
+    filter(Stressor != "") %>% 
+    mutate(var1 = Technology,
+           var2 = Stressor,
+           var3 = Receptor) %>% 
+    drop_na(var1) %>% 
+    drop_na(var2) %>% 
+    separate_rows(var1, sep = my_sep[1])  %>%
+    mutate_at(vars(var1), str_trim) %>%
+    separate_rows(var2, sep = my_sep[2])  %>%
+    mutate_at(vars(var2), str_trim) %>%
+    select(var1, var2) %>%
+    count(var1, var2) %>% 
+    filter(n >= N_min) %>%
+    rename(source = var1,
+           target = var2)
+    
+links2 <- df_all %>% 
+    filter(Marine) %>%
+    drop_na(Stressor) %>%
+    filter(Stressor != "") %>% 
+    mutate(var1 = Technology,
+           var2 = Stressor,
+           var3 = Receptor) %>% 
+        drop_na(var2) %>% 
+        drop_na(var3) %>% 
+        separate_rows(var1, sep = my_sep[1])  %>%
+        mutate_at(vars(var1), str_trim) %>%
+        separate_rows(var2, sep = my_sep[2])  %>%
+        mutate_at(vars(var2), str_trim) %>%
+        separate_rows(var3, sep = my_sep[3])  %>%
+        mutate_at(vars(var3), str_trim) %>%
+        select(var2, var3) %>%
+        count(var2, var3) %>% 
+        #filter(n >= N_min) %>%
+        rename(source = var2,
+               target = var3)
+      
+links <- bind_rows(links, links2)
+
+    
+nodes <- data.frame(name = c(as.character(links$source),
+                             as.character(links$target)) %>%
+                      unique())
+    
+links$IDsource <- match(links$source, nodes$name) - 1 
+links$IDtarget <- match(links$target, nodes$name) - 1
+    
+sankeyNetwork(
+      Links = links,
+      Nodes = nodes,
+      Source = "IDsource",
+      Target = "IDtarget",
+      Value = "n",
+      NodeID = "name",
+      #units = "TWh",
+      fontSize = 12,
+      nodeWidth = 30,
+      iterations = 0,
+      sinksRight = FALSE)  # ensure node order is as in data
+    
+
+```
+
