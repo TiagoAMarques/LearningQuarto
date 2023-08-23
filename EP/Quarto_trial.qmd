@@ -214,11 +214,14 @@ First, plotting number of publications by country.
 
 ```{r}
 #| echo: false
+
+# Summarise data by country
 N_country <- df_all %>% 
   drop_na(Country) %>% 
   group_by(Country) %>% 
   summarise(N = n())
 
+# Bar plot
 N_country %>% 
   ggplot(aes(x = Country, y= N)) +
   geom_bar(stat = "identity") + 
@@ -226,10 +229,14 @@ N_country %>%
   theme_bw() +
   theme(axis.text.x = element_text(angle = 90)) 
 
+# Set tmap to be interactive
+tmap_mode("view")
+
+# Load world polygon and use tmap to plot
 data("World")
 World %>% 
   left_join(N_country, 
             by = c("name" = "Country")) %>% 
   tm_shape() +
-    tm_polygons("N")
+  tm_polygons("N") 
 ```
