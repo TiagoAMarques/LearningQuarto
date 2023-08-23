@@ -262,8 +262,11 @@ World %>%
   tm_polygons("N") 
 ```
 
-Now map distribution of technologies by country.
+Now map distribution of technologies and taxon by country.
 
+::: {.panel-tabset}
+
+## Technology
 
 ```{r}
 #| echo: false
@@ -302,6 +305,48 @@ basemap %>%
   )
 
 ```
+
+## Taxon
+
+```{r}
+#| echo: false
+#| warning: false
+
+tilesURL <- "http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+
+N_country_rec <- df_all %>% 
+  drop_na(Country) %>%
+  filter(Marine) %>% 
+  separate_rows(Receptor, sep = ",")  %>%
+  mutate_at(vars(Receptor), str_trim) %>%
+  filter(Receptor != "") %>% 
+  group_by(Country, Receptor) %>% 
+  summarise(N = n())
+
+coords <- World %>% 
+  left_join(N_country_rec, 
+            by = c("name" = "Country")) %>% 
+  group_by(name) %>% 
+  mutate(x = st_coordinates(st_centroid(geometry))[, 1],
+         y = st_coordinates(st_centroid(geometry))[, 2]) %>% 
+  pivot_wider(names_from = "Receptor",
+              values_from = "N") %>% 
+  mutate_at(20:37, ~replace_na(.,0))
+
+basemap <- leaflet(width = "100%", height = "400px") %>%
+  addTiles(tilesURL)
+basemap %>% 
+  addMinicharts(
+    lng = coords$x, 
+    lat = coords$y,
+    type = "pie",
+    chartdata = as.data.frame(coords[, c(20, 22, 23, 24, 26, 27)])[, 1:5],
+  )
+
+```
+
+:::
+
 
 ## Statistical analysis: Potential drivers of Scottish funding
 
